@@ -45,7 +45,7 @@ class _PriceScreenState extends State<PriceScreen> {
             padding: EdgeInsets.only(bottom: 30.0),
             color: Colors.lightBlue,
             child: DropdownButton<String>(
-              value: 'USD',
+              value: selectedCurrency,
               items: [
                 DropdownMenuItem(
                   child: Text('USD'),
@@ -61,7 +61,9 @@ class _PriceScreenState extends State<PriceScreen> {
                 ),
               ],
               onChanged: (value) {
-                print(value);
+                setState(() {
+                  selectedCurrency = value;
+                });
               },
             ),
           ),
