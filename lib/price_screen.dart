@@ -3,6 +3,7 @@ import 'coin_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io' show Platform;
 import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -13,15 +14,18 @@ class _PriceScreenState extends State<PriceScreen> {
   String selectedCurrency = 'USD';
 
   void getData() async {
-    http.Response response = await http
-        .get('https://apiv2.bitcoinaverage.com/indices/global/ticker/BTCUSD');
+    http.Response response =
+        await http.get('https://api.coinbase.com/v2/prices/spot?currency=USD');
     if (response.statusCode == 200) {
       String data = response.body;
-      print(data);
+      var bitcoinValue = jsonDecode(data)['data']['amount'];
+      print(bitcoinValue);
     } else {
       print(response.statusCode);
     }
   }
+
+//  https://blockchain.info/ticker
 
   DropdownButton<String> androidDropdown() {
     List<DropdownMenuItem<String>> dropdownItems = [];
