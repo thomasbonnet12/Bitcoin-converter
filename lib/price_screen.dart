@@ -11,6 +11,7 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
   String selectedCurrency = 'USD';
+  String bitcoinDataPlace = '';
 
   DropdownButton<String> androidDropdown() {
     List<DropdownMenuItem<String>> dropdownItems = [];
@@ -66,6 +67,7 @@ class _PriceScreenState extends State<PriceScreen> {
         'https://api.coinbase.com/v2/prices/spot?currency=$selectedCurrency');
 
     var bitcoinData = await networkHelper.getData();
+    bitcoinDataPlace = bitcoinData;
   }
 
   @override
@@ -90,7 +92,7 @@ class _PriceScreenState extends State<PriceScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = ',
+                  '1 BTC = $bitcoinDataPlace $selectedCurrency',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
