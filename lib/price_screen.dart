@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'coin_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io' show Platform;
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'networking.dart';
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -12,20 +11,6 @@ class PriceScreen extends StatefulWidget {
 
 class _PriceScreenState extends State<PriceScreen> {
   String selectedCurrency = 'USD';
-
-  void getData() async {
-    http.Response response =
-        await http.get('https://api.coinbase.com/v2/prices/spot?currency=USD');
-    if (response.statusCode == 200) {
-      String data = response.body;
-      var bitcoinValue = jsonDecode(data)['data']['amount'];
-      print(bitcoinValue);
-    } else {
-      print(response.statusCode);
-    }
-  }
-
-//  https://blockchain.info/ticker
 
   DropdownButton<String> androidDropdown() {
     List<DropdownMenuItem<String>> dropdownItems = [];
@@ -76,9 +61,16 @@ class _PriceScreenState extends State<PriceScreen> {
     }
   }
 
+  void getDataForBitcoin() async {
+    NetworkHelper networkHelper = NetworkHelper(
+        'https://api.coinbase.com/v2/prices/spot?currency=$selectedCurrency');
+
+    var bitcoinData = await networkHelper.getData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    getData();
+    getDataForBitcoin();
     return Scaffold(
       appBar: AppBar(
         title: Text('🤑 Coin Ticker'),
@@ -98,7 +90,7 @@ class _PriceScreenState extends State<PriceScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = ? USD',
+                  '1 BTC = ',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
