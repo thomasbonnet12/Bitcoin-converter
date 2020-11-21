@@ -75,7 +75,7 @@ class _PriceScreenState extends State<PriceScreen> {
     getDataForBitcoin();
     return Scaffold(
       appBar: AppBar(
-        title: Text('🤑 Coin Ticker'),
+        title: Text('Coin Ticker'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
